@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YouTube QA AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-50 text-gray-800">
+    <div class="max-w-2xl mx-auto p-6">
+      <h1 class="text-3xl font-bold text-center mb-8">
+        Get Answers from YouTube Videos
+      </h1>
+
+      <div class="bg-white p-6 rounded-2xl shadow-md">
+        <label class="block mb-4">
+          <span class="text-sm font-semibold">YouTube Video Link</span>
+          <input
+            id="video-url"
+            type="text"
+            placeholder="https://www.youtube.com/watch?v=..."
+            class="mt-1 w-full p-3 border rounded-xl"
+          />
+        </label>
+
+        <label class="block mb-6">
+          <span class="text-sm font-semibold">Your Question</span>
+          <textarea
+            id="question"
+            rows="4"
+            placeholder="What are the main points in this video?"
+            class="mt-1 w-full p-3 border rounded-xl resize-none"
+          ></textarea>
+        </label>
+
+        <button
+          id="submit-btn"
+          class="w-full bg-purple-500 hover:bg-purple-600 text-white font-semibold py-3 rounded-xl transition"
+        >
+          Get Answer
+        </button>
+
+        <div
+          id="response"
+          class="mt-6 text-md bg-gray-100 p-4 rounded-xl min-h-[4rem]"
+        ></div>
+      </div>
+
+      <div class="mt-12">
+        <h2 class="text-2xl font-bold mb-6 text-center">How It Works</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          
+          <div class="bg-white p-4 rounded-xl shadow-md border border-purple-200 hover:shadow-lg hover:border-purple-300 hover:bg-purple-50 transition">
+            <p class="text-xl font-bold mb-2">1. Enter a Link</p>
+            <p class="text-sm">
+              Paste the URL of the YouTube video you want information about
+            </p>
+          </div>
+      
+          <div class="bg-white p-4 rounded-xl shadow-md border border-purple-200 hover:shadow-lg hover:border-purple-300 hover:bg-purple-50 transition">
+            <p class="text-xl font-bold mb-2">2. Ask a Question</p>
+            <p class="text-sm">Write your question about the video content</p>
+          </div>
+      
+          <div class="bg-white p-4 rounded-xl shadow-md border border-purple-200 hover:shadow-lg hover:border-purple-300 hover:bg-purple-50 transition">
+            <p class="text-xl font-bold mb-2">3. Get Your Answer</p>
+            <p class="text-sm">
+              Our AI analyzes the video and provides you with an accurate answer
+            </p>
+          </div>
+          
+        </div>
+      </div>
+      
+    <script>
+      document
+        .getElementById("submit-btn")
+        .addEventListener("click", async () => {
+          const url = document.getElementById("video-url").value;
+          const question = document.getElementById("question").value;
+
+          const responseDiv = document.getElementById("response");
+          responseDiv.innerText = "Processing...";
+
+          try {
+            const res = await fetch("http://127.0.0.1:5050/process", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ video_url: url, question: question }),
+            });
+
+            const data = await res.json();
+            responseDiv.innerText = data.answer || data.error || "No response";
+          } catch (err) {
+            responseDiv.innerText = "Error contacting server";
+          }
+        });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,13 @@
+python-dotenv
+langchain
+openai
+google-api-python-client
+google-search-results
+youtube-transcript-api
+chromadb
+tiktoken
+faiss-cpu
+wikipedia
+psycopg2
+pinecone-client
+pgvector
