@@ -13,5 +13,7 @@ psycopg2
 pinecone-client
 pgvector
 langchain-community
+langchain-openai
+
 
 # trigger build
